@@ -1,0 +1,46 @@
+🚀 Getting Started with Nginx for Your MERN Stack App 🚀
+
+(Gist of the process -> download nginx -> run it -> make your mern app as you do -> replace the frontend api end points with normal api points without specifying the host -> open nginx.conf file update the changes of specifying the ports there -> now run npm run build in react frontend -> copy the dist folder path and specify the path in the nginx.conf file -> open cmd and after navigating to nginx folder in c drive as installed run command nginx -s reload to reload the nginx server with all the changes now visit the port that you specified in the nginx.conf file and you'll see your app working from that port and this is how we use nginx .)
+
+
+Setting up Nginx for your MERN stack app can significantly improve performance, simplify routing, and enhance the security of your app. Here's a step-by-step guide:
+
+1. Install Nginx
+Go to nginx.org and download the stable version.
+Extract the files to C:/ and run nginx.exe in the command prompt.
+Visit http://localhost in your browser—if you see the "Welcome to Nginx" page, you're all set!(Or you can also run by opening nginx from the folder)
+(To close the nginx server we use task manager to end task)
+
+2. Change Port in Nginx
+Open the nginx.conf file located in the conf folder and locate the listen 80; directive.
+Change the port if needed, then save the file.
+Run nginx -s reload from the command prompt to apply changes.
+Visit http://localhost:your_port to access the Nginx default page.
+
+3. Configure Nginx for MERN
+Build you express node app normally as you do!
+Build your React app using npm run build and also remember that where ever you are trying to have your api methods just replace them with normal api routes for all the methods instead of the traditional way of handling api from frontend of specifying the ports first example -> 
+*fetch("http:localhost:backendport/getProducts").
+*This should be changed to -> fetch("/getProducts").
+This is done as we are specifying the port to be handled inside our updated nginx.conf file.
+Copy the build folder path (e.g., dist) and update the root in nginx.conf:
+location / {
+ root "path/to/your/build/folder";
+ index index.html;
+ try_files $uri /index.html;
+}
+
+To route API requests, add the following to the configuration:
+location /api/ {
+ proxy_pass http://127.0.0.1:5000; # Update with your Node.js backend address
+}
+
+4. Reload Nginx
+After updating nginx.conf, run nginx -s reload to apply changes.
+Now, visiting http://localhost will load your React app, and API calls will be forwarded to your Node.js backend.
+
+💡 Why Use Nginx in Your MERN Stack?
+Boosts performance by serving static files.
+Improves security with request proxying.
+Simplifies routing for React and Node.js.
+Start using Nginx today to streamline your MERN stack development! 🎉
